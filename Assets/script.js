@@ -1,12 +1,18 @@
 // Assignment code here
 var passwordLength = 8;
-var lowercase = true; var uppercase = true; var numeric = true; var specialChars = true;
-var characterTypes = [lowercase, uppercase, numeric, specialChars];
+var lowercase = true; var uppercase = true; var numeric = true; var special= true;
+var characterTypes = [lowercase, uppercase, numeric, special];
 var characterTypeNames = ["lowercase", "uppercase", "numeric", "special"];
 var validInput = false;
+var lowerChars = "abcdefghijklmnopqrstuvwxyz";
+var upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var numericChars = "1234567890";
+var specialChars = "!@#$%^&*()_+-=`.,?/";
+var characterListTypes = [lowerChars, upperChars, numericChars, specialChars];
 
 function generatePassword() {
   var passwordOutput = "";
+  var allowedChars = "";
   /*Prompt the user for the password length between 8 and 128. If none is specified the program should generate a random length.*/
   if (confirm("Specify the password length?")) {
     while (!validInput)
@@ -29,17 +35,33 @@ function generatePassword() {
     passwordLength = Math.floor((Math.random() * 128) + 8);
     validInput = true;
   }
+  console.log(passwordLength);
+
+  /*Set the validation boolean back to false just in case.*/
   validInput =  false;
- 
+
+  /*Ask the user what types of characters they would like to include, and store each in a boolean variable in an array. The prompt will use a matching array of strings to display the 
+  prompt the user for confirmation for the corresponding boolean variable.*/
   for (var i = 0; i < characterTypes.length; i++)
   {
     var currentType = characterTypeNames[i];
     characterTypes[i] = confirm("Would you like to include " + currentType + " characters?");
-    var currentType = characterTypeNames[i];
-    console.log(characterTypes);
+    if (characterTypes[i])
+    {
+      allowedChars +=  characterListTypes[i];
+    }
+  }
+  console.log(characterTypes);
+  console.log("All of the allowed characters are " + allowedChars);
+  console.log("Length of the allowed characters string is " + allowedChars.length);
+
+  for (var a = 0; a < passwordLength; a++)
+  {
+    randomCharacterIndex = Math.floor(Math.random() * allowedChars.length);
+    passwordOutput += allowedChars[randomCharacterIndex];
   }
 
-
+  return passwordOutput;
 }
 
 // Get references to the #generate element
