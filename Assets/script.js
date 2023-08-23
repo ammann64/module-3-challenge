@@ -44,23 +44,34 @@ function generatePassword() {
   prompt the user for confirmation for the corresponding boolean variable.*/
   for (var i = 0; i < characterTypes.length; i++)
   {
+    var typeSelected = false;
     var currentType = characterTypeNames[i];
     characterTypes[i] = confirm("Would you like to include " + currentType + " characters?");
     if (characterTypes[i])
     {
       allowedChars +=  characterListTypes[i];
+      typeSelected = true;
     }
   }
+  /*If no type is selected all types will be allowed. */
+  if (!typeSelected)
+  {
+    allowedChars = lowerChars + upperChars + numeric + specialChars;
+    alert("No types selected! Allowing all types.")
+  }
+  /*Outputs some info to the log for debugging and testing purposes */
   console.log(characterTypes);
   console.log("All of the allowed characters are " + allowedChars);
   console.log("Length of the allowed characters string is " + allowedChars.length);
 
+  /*Iterates up until the password length adding a random character from the allowed characters to the designated output. */
   for (var a = 0; a < passwordLength; a++)
   {
     randomCharacterIndex = Math.floor(Math.random() * allowedChars.length);
     passwordOutput += allowedChars[randomCharacterIndex];
   }
-
+  
+  console.log("The length of the password is " + passwordOutput.length);
   return passwordOutput;
 }
 
